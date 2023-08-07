@@ -229,22 +229,22 @@ def main(cfg: DictConfig):
         tokenizer,
         cfg.device_train_batch_size,
     )
-    print('Building eval loader...')
-    evaluators = []
-    if 'eval_loader' in cfg:
-        assert model.train_metrics is not None
-        eval_loader = Evaluator(label='eval',
-                                dataloader=build_dataloader(
-                                    cfg.eval_loader, tokenizer,
-                                    cfg.device_eval_batch_size),
-                                metric_names=list(model.train_metrics.keys()))
-        evaluators.append(eval_loader)
+    # print('Building eval loader...')
+    # evaluators = []
+    # if 'eval_loader' in cfg:
+    #     assert model.train_metrics is not None
+    #     eval_loader = Evaluator(label='eval',
+    #                             dataloader=build_dataloader(
+    #                                 cfg.eval_loader, tokenizer,
+    #                                 cfg.device_eval_batch_size),
+    #                             metric_names=list(model.train_metrics.keys()))
+    #     evaluators.append(eval_loader)
 
-    if 'icl_tasks' in cfg:
-        icl_evaluators, _ = build_icl_evaluators(cfg.icl_tasks, tokenizer,
-                                                 cfg.max_seq_len,
-                                                 cfg.device_eval_batch_size)
-        evaluators.extend(icl_evaluators)
+    # if 'icl_tasks' in cfg:
+    #     icl_evaluators, _ = build_icl_evaluators(cfg.icl_tasks, tokenizer,
+    #                                              cfg.max_seq_len,
+    #                                              cfg.device_eval_batch_size)
+    #     evaluators.extend(icl_evaluators)
 
     # Optimizer
     optimizer = build_optimizer(cfg.optimizer, model)
@@ -290,7 +290,7 @@ def main(cfg: DictConfig):
         seed=cfg.seed,
         model=model,
         train_dataloader=train_loader,
-        eval_dataloader=evaluators,
+        # eval_dataloader=evaluators,
         optimizers=optimizer,
         schedulers=scheduler,
         max_duration=cfg.max_duration,
